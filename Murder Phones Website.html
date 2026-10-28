@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es-MX" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murder Phones - Fix & Unlock</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron (Headings) and Rajdhani (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        drone: {
+                            black: '#050505',
+                            dark: '#111111',
+                            gray: '#1a1a1a',
+                            yellow: '#e5ff00',
+                            yellowHover: '#ccde00',
+                            purple: '#b026ff',
+                            purpleHover: '#9215d6',
+                            text: '#e0e0e0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #e0e0e0;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(176, 38, 255, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(229, 255, 0, 0.05), transparent 25%);
+        }
+        
+        /* Neon text effects */
+        .neon-text-yellow {
+            text-shadow: 0 0 8px rgba(229, 255, 0, 0.6), 0 0 16px rgba(229, 255, 0, 0.3);
+        }
+        .neon-text-purple {
+            text-shadow: 0 0 8px rgba(176, 38, 255, 0.6), 0 0 16px rgba(176, 38, 255, 0.3);
+        }
+        
+        /* Glass / Cyberpunk panels */
+        .cyber-panel {
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #333;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .cyber-border-yellow {
+            border: 1px solid rgba(229, 255, 0, 0.4);
+            box-shadow: 0 0 15px rgba(229, 255, 0, 0.1);
+        }
+        
+        .cyber-border-purple {
+            border: 1px solid rgba(176, 38, 255, 0.4);
+            box-shadow: 0 0 15px rgba(176, 38, 255, 0.1);
+        }
+
+        /* Glitch Hover Animation */
+        .glitch-hover {
+            transition: all 0.2s ease;
+        }
+        .glitch-hover:hover {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            background-color: rgba(229, 255, 0, 0.1);
+            color: #e5ff00;
+        }
+        
+        .glitch-hover-purple:hover {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            background-color: rgba(176, 38, 255, 0.1);
+            color: #b026ff;
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-2deg); }
+            40% { transform: skew(2deg); }
+            60% { transform: skew(-1deg); }
+            80% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Scanline overlay */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen font-rajdhani text-lg">
+    <div class="scanlines"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 cyber-panel border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-orbitron font-bold text-2xl tracking-widest cursor-pointer glitch-hover">
+                    <i class="fa-solid fa-microchip text-drone-yellow mr-2"></i>
+                    [MURDER<span class="text-drone-purple neon-text-purple">PHONES</span>]
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 font-orbitron text-sm font-bold tracking-wider">
+                        <a href="#inicio" class="hover:text-drone-yellow px-3 py-2 transition-colors duration-300">/INICIO</a>
+                        <a href="#servicios" class="hover:text-drone-yellow px-3 py-2 transition-colors duration-300">/SERVICIOS</a>
+                        <a href="#cotizador" class="hover:text-drone-yellow px-3 py-2 transition-colors duration-300">/SISTEMA_COTIZADOR</a>
+                        <a href="#contacto" class="hover:text-drone-yellow px-3 py-2 transition-colors duration-300">/CONTACTO</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <i class="fa-solid fa-bars text-xl text-drone-yellow"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="pt-24 pb-12 md:pt-32 md:pb-24 px-4 flex-grow flex items-center relative overflow-hidden">
+        <!-- Abstract Tech Background -->
+        <div class="absolute inset-0 z-0 opacity-10" style="background-image: radial-gradient(#e5ff00 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+            <div class="inline-block border border-drone-purple px-4 py-1 mb-6 rounded-sm text-drone-purple font-orbitron text-sm tracking-widest bg-drone-purple/10">
+                <i class="fa-solid fa-circle-notch fa-spin mr-2"></i> REINICIANDO SISTEMA...
+            </div>
+            <h1 class="text-5xl md:text-7xl font-orbitron font-black tracking-tight mb-6 uppercase">
+                Revive tu dispositivo.<br>
+                <span class="text-drone-yellow neon-text-yellow">> Fix & Unlock_</span>
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-10 font-medium">
+                Ingeniería inversa, reparación de hardware y eliminación de bloqueos por software. Trabajos rápidos y de precisión.
+            </p>
+            <a href="#cotizador" class="inline-block bg-drone-yellow hover:bg-drone-yellowHover text-drone-black font-orbitron font-bold py-4 px-8 rounded-sm shadow-[0_0_15px_rgba(229,255,0,0.4)] transition transform hover:scale-105 glitch-hover">
+                INICIAR COTIZACIÓN
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicios" class="py-16 px-4 bg-drone-dark relative border-t border-b border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-12 uppercase tracking-widest">
+                <span class="text-drone-purple">/</span> Módulos de Servicio
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Hardware / Yellow Theme -->
+                <div class="cyber-panel cyber-border-yellow p-8 rounded-sm relative group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-drone-yellow/10 rounded-bl-full z-0 transition-all duration-500 group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <div class="text-drone-yellow font-orbitron text-sm mb-2 opacity-70">[ HW_REPAIR_UNIT ]</div>
+                        <div class="w-14 h-14 bg-drone-yellow/20 flex items-center justify-center mb-6 border border-drone-yellow/50">
+                            <i class="fa-solid fa-microchip text-2xl text-drone-yellow neon-text-yellow"></i>
+                        </div>
+                        <h3 class="text-2xl font-orbitron font-bold mb-4 text-white uppercase">Reparación Física</h3>
+                        <p class="text-gray-400 mb-4">Ensamblaje y reemplazo de componentes con calidad OEM. Diagnóstico a nivel circuito.</p>
+                        <ul class="space-y-3 text-gray-300 font-medium">
+                            <li class="flex items-center"><i class="fa-solid fa-angle-right text-drone-yellow mr-3"></i> Cambio de Display (Pantalla)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-angle-right text-drone-yellow mr-3"></i> Reemplazo de Batería</li>
+                            <li class="flex items-center"><i class="fa-solid fa-angle-right text-drone-yellow mr-3"></i> Centro / Puerto de Carga</li>
+                            <li class="flex items-center"><i class="fa-solid fa-angle-right text-drone-yellow mr-3"></i> Reparación de Lógica</li>
+                            <li class="flex items-center"><i class="fa-solid fa-angle-right text-drone-yellow mr-3"></i> Cámaras, sensores y actuadores</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Software / Purple Theme -->
+                <div class="cyber-panel cyber-border-purple p-8 rounded-sm relative group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-drone-purple/10 rounded-bl-full z-0 transition-all duration-500 group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <div class="text-drone-purple font-orbitron text-sm mb-2 opacity-70">[ SW_OVERRIDE_UNIT ]</div>
+                        <div class="w-14 h-14 bg-drone-purple/20 flex items-center justify-center mb-6 border border-drone-purple/50">
+                            <i class="fa-solid fa-terminal text-2xl text-drone-purple neon-text-purple"></i>
+                        </div>
+                        <h3 class="text-2xl font-orbitron font-bold mb-4 text-white uppercase">Desbloqueo / Software</h3>
+                        <p class="text-gray-400 mb-4">Ejecución de scripts y exploits mediante <strong>UnlockTool</strong> para evadir bloqueos de sistema.</p>
+                        <ul class="space-y-3 text-gray-300 font-medium">
+                            <li class="flex items-center"><i class="fa-solid fa-code text-drone-purple mr-3"></i> Eliminación de FRP (Cuenta Google)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-code text-drone-purple mr-3"></i> Eliminación de MDM (Bloqueo empresarial)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-code text-drone-purple mr-3"></i> Remover Bloqueos KG (Payjoy, Macropay, etc.)</li>
+                            <li class="flex items-start mt-2 bg-drone-gray p-3 border-l-2 border-drone-purple text-sm">
+                                <i class="fa-solid fa-network-wired text-drone-purple mt-1 mr-2"></i>
+                                <span><strong>Protocolos Soportados:</strong> Samsung, Honor, Huawei, Motorola, Sony, TCL, Lenovo, Vivo, Oppo.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="cotizador" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4 uppercase tracking-widest">
+                <span class="text-drone-yellow">></span> Terminal de Cotización
+            </h2>
+            <p class="text-center text-gray-400 mb-10 font-medium">Calcula recursos y tiempo de procesamiento estimado.</p>
+            
+            <div class="cyber-panel p-6 md:p-10 rounded-sm border border-gray-700 shadow-[0_0_30px_rgba(0,0,0,0.8)] relative">
+                <!-- Decorative corner accents -->
+                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-drone-yellow"></div>
+                <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-drone-yellow"></div>
+                <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-drone-yellow"></div>
+                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-drone-yellow"></div>
+
+                <form id="calcForm" class="space-y-6 relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Tipo de Servicio -->
+                        <div>
+                            <label class="block text-sm font-orbitron tracking-wider text-drone-yellow mb-2 uppercase">Tipo de Intervención</label>
+                            <select id="serviceType" class="w-full bg-drone-black border border-gray-600 rounded-none px-4 py-3 text-white focus:outline-none focus:border-drone-yellow transition-colors cursor-pointer">
+                                <option value="" disabled selected>Selecciona un módulo...</option>
+                                <option value="reparacion">Reparación de Pieza (Hardware)</option>
+                                <option value="desbloqueo">Eliminación de Bloqueo (Software)</option>
+                            </select>
+                        </div>
+
+                        <!-- Marca -->
+                        <div>
+                            <label class="block text-sm font-orbitron tracking-wider text-gray-400 mb-2 uppercase">Fabricante / Marca</label>
+                            <select id="brand" class="w-full bg-drone-black border border-gray-600 rounded-none px-4 py-3 text-white focus:outline-none focus:border-drone-purple transition-colors cursor-pointer">
+                                <option value="Samsung">Samsung</option>
+                                <option value="Motorola">Motorola</option>
+                                <option value="Huawei">Huawei</option>
+                                <option value="Honor">Honor</option>
+                                <option value="Oppo">Oppo</option>
+                                <option value="Vivo">Vivo</option>
+                                <option value="TCL">TCL</option>
+                                <option value="Lenovo">Lenovo</option>
+                                <option value="Sony">Sony</option>
+                                <option value="Apple">Apple / iPhone</option>
+                                <option value="Otro">Otra Marca</option>
+                            </select>
+                        </div>
+
+                        <!-- Problema / Detalle -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-orbitron tracking-wider text-gray-400 mb-2 uppercase">Parámetro Específico</label>
+                            <select id="issue" class="w-full bg-drone-black border border-gray-600 rounded-none px-4 py-3 text-white focus:outline-none focus:border-drone-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" disabled>
+                                <option value="" disabled selected>Esperando entrada de tipo de intervención...</option>
+                            </select>
+                        </div>
+
+                        <!-- Modelo -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-orbitron tracking-wider text-gray-400 mb-2 uppercase">Identificador de Modelo (Ej. Moto G60)</label>
+                            <input type="text" id="model" placeholder="Ingresa el modelo del dispositivo..." class="w-full bg-drone-black border border-gray-600 rounded-none px-4 py-3 text-white focus:outline-none focus:border-drone-purple transition-colors font-mono">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="button" id="btnCalculate" class="w-full border-2 border-drone-yellow text-drone-yellow hover:bg-drone-yellow hover:text-drone-black font-orbitron font-bold py-4 uppercase tracking-widest transition-all duration-300 glitch-hover">
+                            <i class="fa-solid fa-terminal mr-2"></i> Ejecutar Cálculo
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Result Card -->
+                <div id="resultCard" class="hidden mt-8 p-6 bg-[#0a0a0a] border border-drone-purple relative overflow-hidden">
+                    <div class="absolute inset-0 bg-drone-purple/5 pointer-events-none"></div>
+                    <div class="flex items-center mb-6">
+                        <i class="fa-solid fa-check-circle text-drone-yellow mr-3"></i>
+                        <h4 class="text-xl font-orbitron font-bold text-white uppercase tracking-widest">Análisis Completado</h4>
+                    </div>
+                    
+                    <div class="space-y-4 relative z-10 font-medium">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-500 font-orbitron text-sm">OBJETIVO:</span>
+                            <span id="resModel" class="text-drone-yellow font-mono"></span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-500 font-orbitron text-sm">PROTOCOLO:</span>
+                            <span id="resService" class="text-drone-purple font-mono"></span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-500 font-orbitron text-sm">COSTE ESTIMADO:</span>
+                            <span id="resPrice" class="font-bold text-2xl text-white neon-text-purple font-mono"></span>
+                        </div>
+                        <div class="bg-drone-black border border-gray-800 p-4 mt-4 relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-drone-yellow"></div>
+                            <div class="flex items-start pl-2">
+                                <i class="fa-solid fa-hourglass-half text-drone-yellow mt-1 mr-3 text-sm"></i>
+                                <div>
+                                    <span class="block font-orbitron text-sm text-gray-400 mb-1">TIEMPO DE ESPERA (ETA):</span>
+                                    <span id="resTime" class="text-base text-gray-200 leading-relaxed font-mono"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-4 font-mono">> Nota: El coste de hardware se basa en refacciones del mercado actual (Mercado Libre). Variables sujetas a disponibilidad y calidad requerida por el usuario.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location and Contact Section -->
+    <section id="contacto" class="py-16 px-4 bg-drone-dark border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Info -->
+                <div class="cyber-panel border-gray-800 p-8">
+                    <h2 class="text-3xl font-orbitron font-bold mb-8 uppercase border-b border-gray-700 pb-4">
+                        <span class="text-drone-yellow">/</span> Datos de Contacto
+                    </h2>
+                    
+                    <div class="space-y-8 font-medium">
+                        <div class="flex items-start group">
+                            <div class="w-12 h-12 border border-drone-purple bg-drone-purple/10 flex items-center justify-center flex-shrink-0 mr-4 transition-all group-hover:bg-drone-purple/30">
+                                <i class="fa-solid fa-location-crosshairs text-drone-purple text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-orbitron font-bold text-gray-300 text-sm mb-1 uppercase">Coordenadas Base</h4>
+                                <p class="text-gray-400 font-mono text-sm leading-relaxed">Jose Juarez 8815<br>Fraccionamiento Parajes del Sol<br>Ciudad Juárez, Chihuahua, México.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start group">
+                            <div class="w-12 h-12 border border-drone-yellow bg-drone-yellow/10 flex items-center justify-center flex-shrink-0 mr-4 transition-all group-hover:bg-drone-yellow/30">
+                                <i class="fa-solid fa-clock text-drone-yellow text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-orbitron font-bold text-gray-300 text-sm mb-1 uppercase">Ciclo de Operación</h4>
+                                <p class="text-gray-400 font-mono text-sm mb-1"><span class="text-drone-yellow">></span> Lunes a Viernes: <strong>3:00 PM - 10:00 PM</strong></p>
+                                <p class="text-gray-400 font-mono text-sm"><span class="text-drone-yellow">></span> Fines de Semana: <strong>1:00 PM - 10:00 PM</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start group">
+                            <div class="w-12 h-12 border border-green-500 bg-green-500/10 flex items-center justify-center flex-shrink-0 mr-4 transition-all group-hover:bg-green-500/30">
+                                <i class="fa-brands fa-whatsapp text-green-500 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-orbitron font-bold text-gray-300 text-sm mb-1 uppercase">Canal Cifrado (WhatsApp)</h4>
+                                <a href="https://wa.me/5216564233397" target="_blank" class="text-gray-300 font-mono text-lg hover:text-green-400 transition-colors block glitch-hover-purple inline-block">
+                                    +52 (656) 423 3397
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start group">
+                            <div class="w-12 h-12 border border-blue-500 bg-blue-500/10 flex items-center justify-center flex-shrink-0 mr-4 transition-all group-hover:bg-blue-500/30">
+                                <i class="fa-solid fa-envelope-terminal text-blue-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-orbitron font-bold text-gray-300 text-sm mb-1 uppercase">Transmisión de Datos (Email)</h4>
+                                <a href="mailto:murderphonefixunlock@gmail.com" class="text-gray-300 font-mono text-sm hover:text-blue-400 transition-colors break-all glitch-hover-purple inline-block">
+                                    murderphonefixunlock@gmail.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Placeholder -->
+                <div class="cyber-panel cyber-border-yellow p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAiLz4KPHBhdGggZD0iTTAgMEgxdjFIMHoiIGZpbGw9IiNlNWZmMDAiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgo8L3N2Zz4=')] opacity-50"></div>
+                    
+                    <i class="fa-solid fa-satellite-dish text-5xl text-drone-yellow mb-6 neon-text-yellow relative z-10"></i>
+                    <h3 class="text-2xl font-orbitron font-bold mb-4 text-white uppercase relative z-10">¿Iniciar Reparación?</h3>
+                    <p class="text-gray-400 mb-8 font-medium relative z-10">Acércate a nuestras coordenadas. Si el diagnóstico requiere componentes de repuesto, se emite orden de compra el mismo día con anticipo.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 w-full justify-center relative z-10 font-orbitron">
+                        <a href="https://wa.me/5216564233397" target="_blank" class="bg-drone-black border border-green-500 text-green-500 hover:bg-green-500 hover:text-black font-bold py-3 px-6 text-sm tracking-widest transition-all flex items-center justify-center uppercase">
+                            <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Conectar
+                        </a>
+                        <a href="https://maps.google.com/?q=Jose+Juarez+8815,Fraccionamiento+Parajes+del+Sol,Ciudad+Juarez" target="_blank" class="bg-drone-black border border-drone-yellow text-drone-yellow hover:bg-drone-yellow hover:text-black font-bold py-3 px-6 text-sm tracking-widest transition-all flex items-center justify-center uppercase">
+                            <i class="fa-solid fa-location-crosshairs mr-2"></i> Rastrear
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#020202] py-6 border-t border-gray-900 text-center font-mono text-sm relative z-20">
+        <p class="text-gray-600">
+            > SISTEMA OPERATIVO: MURDER PHONES OS V1.0 <br>
+            > &copy; <span id="year"></span> FIX & UNLOCK. TODOS LOS DERECHOS RESERVADOS. CD. JUÁREZ.
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Calculator Logic
+        const serviceType = document.getElementById('serviceType');
+        const issueSelect = document.getElementById('issue');
+        const btnCalculate = document.getElementById('btnCalculate');
+        const resultCard = document.getElementById('resultCard');
+
+        // Options for selects - Updated terminology
+        const repairOptions = [
+            { value: 'display', text: 'Cambio de Display (Pantalla)' },
+            { value: 'bateria', text: 'Cambio de Batería' },
+            { value: 'centro_carga', text: 'Reemplazo Centro / Puerto de Carga' },
+            { value: 'logica', text: 'Reparación de Lógica / Microcomponentes' },
+            { value: 'camaras', text: 'Sustitución de Cámaras' },
+            { value: 'otro', text: 'Otro fallo de hardware' }
+        ];
+
+        const unlockOptions = [
+            { value: 'frp', text: 'Eliminación de FRP (Cuenta Google)' },
+            { value: 'mdm', text: 'Eliminación de MDM (Bloqueo Empresarial)' },
+            { value: 'kg', text: 'Remover Bloqueo KG (Payjoy, etc.)' },
+            { value: 'red', text: 'Liberación de Red / Carrier' },
+            { value: 'otro', text: 'Eliminación de otro Bloqueo' }
+        ];
+
+        // Handle service type change
+        serviceType.addEventListener('change', (e) => {
+            const type = e.target.value;
+            issueSelect.innerHTML = '';
+            issueSelect.disabled = false;
+            
+            // Adjust border colors to match theme choice
+            if(type === 'reparacion') {
+                issueSelect.classList.remove('focus:border-drone-purple');
+                issueSelect.classList.add('focus:border-drone-yellow');
+            } else {
+                issueSelect.classList.remove('focus:border-drone-yellow');
+                issueSelect.classList.add('focus:border-drone-purple');
+            }
+
+            let options = [];
+            if (type === 'reparacion') options = repairOptions;
+            else if (type === 'desbloqueo') options = unlockOptions;
+
+            options.forEach(opt => {
+                const el = document.createElement('option');
+                el.value = opt.value;
+                el.textContent = opt.text;
+                issueSelect.appendChild(el);
+            });
+        });
+
+        // Validation UI mock function (Terminal style)
+        function showMessage(msg) {
+            const tempDiv = document.createElement('div');
+            tempDiv.className = "fixed top-20 right-4 bg-drone-black border border-red-500 text-red-500 px-6 py-4 shadow-[0_0_15px_rgba(255,0,0,0.3)] z-[100] font-mono text-sm animate-pulse flex items-center";
+            tempDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-3 text-lg"></i> <span>ERROR: ${msg}</span>`;
+            document.body.appendChild(tempDiv);
+            setTimeout(() => {
+                tempDiv.style.opacity = '0';
+                tempDiv.style.transition = 'opacity 0.5s';
+                setTimeout(() => tempDiv.remove(), 500);
+            }, 3000);
+        }
+
+        // Calculate Logic
+        btnCalculate.addEventListener('click', () => {
+            const type = serviceType.value;
+            const brand = document.getElementById('brand').value;
+            const issue = issueSelect.value;
+            const model = document.getElementById('model').value.trim();
+
+            if (!type || !issue) {
+                showMessage('SE REQUIERE SELECCIONAR MÓDULO Y PARÁMETRO.');
+                return;
+            }
+            if (model === '') {
+                showMessage('IDENTIFICADOR DE MODELO AUSENTE.');
+                return;
+            }
+
+            let priceStr = "";
+            let timeStr = "";
+            const currentHour = new Date().getHours();
+
+            // Calculate prices and times according to specifications
+            if (type === 'desbloqueo') {
+                // Software Unlock Pricing Logic
+                if (issue === 'frp') priceStr = "$150 - $300 MXN";
+                else if (issue === 'mdm') priceStr = "$400 - $500 MXN";
+                else if (issue === 'kg') priceStr = "$500 - $800 MXN";
+                else priceStr = "Desde $100 MXN";
+                
+                timeStr = "4 a 8 horas";
+                
+            } else if (type === 'reparacion') {
+                // Hardware Repair Pricing Logic (Mock market prices)
+                if (issue === 'display') priceStr = "$800 - $2500 MXN";
+                else if (issue === 'bateria') priceStr = "$350 - $600 MXN";
+                else if (issue === 'centro_carga') priceStr = "$250 - $400 MXN";
+                else if (issue === 'logica') priceStr = "$600 - $2000 MXN";
+                else if (issue === 'camaras') priceStr = "$400 - $900 MXN";
+                else priceStr = "Requiere diagnóstico presencial.";
+
+                // Time logic based on prompt instructions
+                if (currentHour < 16) {
+                    timeStr = "La pieza solicitada llega al día siguiente. Su reparación estará lista el mismo día de la llegada de la pieza.";
+                } else {
+                    timeStr = "La pieza solicitada llega en 2 días (procesamiento post-4PM). Su reparación estará lista el mismo día de la llegada de la pieza.";
+                }
+            }
+
+            // Update UI with glitch effect
+            resultCard.classList.remove('hidden');
+            resultCard.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                document.getElementById('resModel').textContent = `[${brand.toUpperCase()} ${model.toUpperCase()}]`;
+                
+                let issueText = issueSelect.options[issueSelect.selectedIndex].text.toUpperCase();
+                document.getElementById('resService').textContent = type === 'reparacion' ? `HARDWARE_REP: ${issueText}` : `SOFTWARE_UNLOCK: ${issueText}`;
+                
+                document.getElementById('resPrice').textContent = priceStr;
+                
+                // Adjust colors based on result type
+                if(type === 'reparacion') {
+                    document.getElementById('resPrice').className = "font-bold text-2xl text-drone-yellow neon-text-yellow font-mono";
+                    document.getElementById('resService').className = "text-drone-yellow font-mono";
+                } else {
+                    document.getElementById('resPrice').className = "font-bold text-2xl text-drone-purple neon-text-purple font-mono";
+                    document.getElementById('resService').className = "text-drone-purple font-mono";
+                }
+
+                document.getElementById('resTime').textContent = `> ${timeStr}`;
+                
+                resultCard.style.opacity = '1';
+                resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
